@@ -27,10 +27,11 @@ npm run dev
 src/
 ├── components/
 │   ├── ui/          Reusable primitives (Badge, Stars, Modal, BarChart…)
-│   ├── layout/      Header and tabs
+│   ├── layout/      Header, tabs and the CSV buttons
 │   ├── shelf/       Book list, cards and status filter
 │   ├── stats/       Reading statistics tab
-│   └── book-form/   Create/edit dialog and the Open Library search
+│   ├── book-form/   Create/edit dialog and the Open Library search
+│   └── csv/         Import dialog: column reference and file preview
 ├── hooks/           useBooks, useTheme, useLocalStorage, useOpenLibrarySearch
 ├── services/        localStorage wrapper and the Open Library client
 ├── utils/           Pure helpers (stats, spine colors, book normalization)
@@ -38,6 +39,36 @@ src/
 ├── context/         Theme context and provider
 └── styles/          Shared inline styles built from the theme tokens
 ```
+
+## CSV export and import
+
+**Exportar** downloads the whole shelf as `mi-librero-<date>.csv`, with a BOM so
+spreadsheets open it as UTF-8. **Importar** opens a dialog that lists the
+columns, offers a template to download, and previews the file before anything is
+saved: how many books are ready, which rows will be skipped and why.
+
+One row per book. The first row holds the column names; only `titulo` is
+required and the order does not matter. Commas and semicolons both work as
+separators, and headers may be accented (`Título`, `Reseña`, `veces leído`).
+
+| Column         | Required | Contents                                          |
+| -------------- | -------- | ------------------------------------------------- |
+| `titulo`       | yes      | Book title                                        |
+| `autor`        | no       | Author                                            |
+| `anio`         | no       | Publication year, free text                       |
+| `genero`       | no       | Main genre, any text                              |
+| `estatus`      | no       | Leyendo, Leído, Pendiente or Abandonado           |
+| `fechaFin`     | no       | Date finished, `YYYY-MM-DD`                       |
+| `vecesLeido`   | no       | Times read, integer ≥ 0                           |
+| `calificacion` | no       | Stars, integer 0–5                                |
+| `resena`       | no       | Review; quote it if it has commas or line breaks  |
+| `id`           | no       | Generated. Keeping it makes the row update a book |
+| `agregado`     | no       | Date added (ISO). Generated                       |
+
+Importing either merges into the shelf (a row whose `id` already exists updates
+that book) or replaces it. The column contract lives in
+[`src/constants/csv.js`](src/constants/csv.js) and drives the export, the
+template and the dialog.
 
 ## Deploying to GitHub Pages
 
