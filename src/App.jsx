@@ -7,7 +7,11 @@ import { BookFormModal } from "./components/book-form/BookFormModal";
 import { useBooks } from "./hooks/useBooks";
 import { useTheme } from "./hooks/useTheme";
 import { computeStats } from "./utils/stats";
+import { booksToCsv, csvFileName } from "./utils/bookCsv";
+import { withBom } from "./utils/csv";
+import { downloadText } from "./services/file";
 import { ALL_FILTER, EMPTY_BOOK } from "./constants/books";
+import { CSV_MIME } from "./constants/csv";
 
 const TABS = [
   { id: "shelf", label: "Librero" },
@@ -37,6 +41,10 @@ export default function App() {
     closeModal();
   };
 
+  const handleExport = () => {
+    downloadText(csvFileName(new Date()), withBom(booksToCsv(books)), CSV_MIME);
+  };
+
   return (
     <div
       style={{
@@ -46,7 +54,12 @@ export default function App() {
         transition: "background 0.3s, color 0.3s",
       }}
     >
-      <Header stats={stats} onAddBook={() => setEditingBook(EMPTY_BOOK)} />
+      <Header
+        stats={stats}
+        onAddBook={() => setEditingBook(EMPTY_BOOK)}
+        canExport={books.length > 0}
+        onExport={handleExport}
+      />
       <Tabs tabs={TABS} active={view} onChange={setView} />
 
       <main style={{ ...styles.page, padding: "20px 20px 80px" }}>
