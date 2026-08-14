@@ -26,7 +26,7 @@ export function Header({ stats, onAddBook }) {
           className="serif"
           style={{ margin: 0, fontSize: 32, fontWeight: 600, letterSpacing: "-0.01em" }}
         >
-          Mi Libero Personal
+          Mi Librero
         </h1>
         <p style={{ margin: "4px 0 0", color: t.muted, fontSize: 14 }}>{summary}</p>
       </div>

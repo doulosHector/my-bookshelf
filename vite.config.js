@@ -16,8 +16,8 @@ export default defineConfig({
       injectRegister: "auto",
       includeAssets: ["favicon.svg", "apple-touch-icon.png"],
       manifest: {
-        name: "Mi Libero Personal",
-        short_name: "Mi Libero",
+        name: "Mi Librero",
+        short_name: "Mi Librero",
         description:
           "Registra los libros que lees, califícalos y revisa tus estadísticas de lectura.",
         lang: "es",

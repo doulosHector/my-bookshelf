@@ -1,4 +1,4 @@
-# Mi Libero Personal
+# Mi Librero
 
 A personal reading log: track the books you read, rate them, write short reviews
 and look at your reading stats. Data lives in `localStorage`, so nothing leaves
