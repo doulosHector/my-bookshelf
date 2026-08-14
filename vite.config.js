@@ -4,7 +4,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // Repository name, so the assets resolve under https://<user>.github.io/<repo>/.
 // Override with BASE_PATH=/ when deploying to a custom domain or another host.
-const base = process.env.BASE_PATH ?? "/my-personal-bookshelf/";
+const base = process.env.BASE_PATH ?? "/my-bookshelf/";
 
 // https://vite.dev/config/
 export default defineConfig({
