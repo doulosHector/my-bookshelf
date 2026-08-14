@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useTheme } from "../../hooks/useTheme";
-import { DANGER_COLOR, STATUS_STYLE } from "../../constants/books";
+import { STATUS_STYLE } from "../../constants/books";
 
 /** Footer of the book form: delete (with confirmation), cancel and save. */
 export function BookFormActions({ isEditing, canSave, onDelete, onCancel, onSave }) {
-  const { theme, styles } = useTheme();
+  const { theme, t, styles } = useTheme();
   const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   return (
@@ -22,7 +22,7 @@ export function BookFormActions({ isEditing, canSave, onDelete, onCancel, onSave
           <button
             type="button"
             onClick={onDelete}
-            style={{ ...styles.btnGhost, color: DANGER_COLOR, borderColor: DANGER_COLOR }}
+            style={{ ...styles.btnGhost, color: t.danger, borderColor: t.danger }}
           >
             Confirmar eliminación
           </button>

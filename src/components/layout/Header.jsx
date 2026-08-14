@@ -2,7 +2,7 @@ import { useTheme } from "../../hooks/useTheme";
 import { ThemeIcon } from "../ui/ThemeIcon";
 import { DataActions } from "./DataActions";
 
-export function Header({ stats, onAddBook, canExport, onExport }) {
+export function Header({ stats, onAddBook, canExport, onExport, onImport }) {
   const { theme, t, styles, toggleTheme } = useTheme();
 
   const summary =
@@ -33,7 +33,7 @@ export function Header({ stats, onAddBook, canExport, onExport }) {
       </div>
 
       <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-        <DataActions canExport={canExport} onExport={onExport} />
+        <DataActions canExport={canExport} onExport={onExport} onImport={onImport} />
         <button
           onClick={toggleTheme}
           aria-label={theme === "light" ? "Cambiar a tema oscuro" : "Cambiar a tema claro"}

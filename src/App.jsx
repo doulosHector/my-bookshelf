@@ -4,6 +4,7 @@ import { Tabs } from "./components/layout/Tabs";
 import { ShelfView } from "./components/shelf/ShelfView";
 import { StatsView } from "./components/stats/StatsView";
 import { BookFormModal } from "./components/book-form/BookFormModal";
+import { ImportCsvModal } from "./components/csv/ImportCsvModal";
 import { useBooks } from "./hooks/useBooks";
 import { useTheme } from "./hooks/useTheme";
 import { computeStats } from "./utils/stats";
@@ -20,12 +21,13 @@ const TABS = [
 
 export default function App() {
   const { t, styles } = useTheme();
-  const { books, saveBook, deleteBook } = useBooks();
+  const { books, saveBook, deleteBook, importBooks } = useBooks();
 
   const [view, setView] = useState(TABS[0].id);
   const [filter, setFilter] = useState(ALL_FILTER);
   // null = modal closed; a book without id = creating a new one.
   const [editingBook, setEditingBook] = useState(null);
+  const [importing, setImporting] = useState(false);
 
   const stats = useMemo(() => computeStats(books), [books]);
 
@@ -59,6 +61,7 @@ export default function App() {
         onAddBook={() => setEditingBook(EMPTY_BOOK)}
         canExport={books.length > 0}
         onExport={handleExport}
+        onImport={() => setImporting(true)}
       />
       <Tabs tabs={TABS} active={view} onChange={setView} />
 
@@ -81,6 +84,14 @@ export default function App() {
           onSave={handleSave}
           onDelete={handleDelete}
           onClose={closeModal}
+        />
+      )}
+
+      {importing && (
+        <ImportCsvModal
+          bookCount={books.length}
+          onImport={importBooks}
+          onClose={() => setImporting(false)}
         />
       )}
     </div>

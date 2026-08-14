@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useTheme } from "../../hooks/useTheme";
 
 /** Centered dialog with a click-outside and Escape-to-close backdrop. */
-export function Modal({ label, onClose, children }) {
+export function Modal({ label, onClose, maxWidth = 540, children }) {
   const { styles } = useTheme();
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export function Modal({ label, onClose, children }) {
           ...styles.card,
           borderRadius: 10,
           width: "100%",
-          maxWidth: 540,
+          maxWidth,
           padding: 24,
           maxHeight: "92vh",
           overflowY: "auto",

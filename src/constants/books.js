@@ -10,8 +10,6 @@ export const STATUS_STYLE = {
   Abandonado: { light: "#7A3B32", dark: "#C98D82" },
 };
 
-export const DANGER_COLOR = "#7A3B32";
-
 export const GENRES = [
   "Ficción",
   "No ficción",

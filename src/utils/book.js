@@ -17,8 +17,13 @@ export function normalizeBook(form) {
   return book;
 }
 
+// Books created in the same millisecond (a CSV import) need distinct ids, so
+// the timestamp carries a per-session counter.
+let sequence = 0;
+
 export function createBookId() {
-  return Date.now().toString(36);
+  sequence += 1;
+  return `${Date.now().toString(36)}-${sequence.toString(36)}`;
 }
 
 /** Year in which the book was finished, or null when there is no valid date. */

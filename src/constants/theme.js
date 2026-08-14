@@ -9,6 +9,7 @@ export const THEMES = {
     accent: "#1E4E5F",
     accentSoft: "#DBE3E6",
     onAccent: "#F4F4F1",
+    danger: "#7A3B32",
     shadow: "0 1px 2px rgba(22,24,26,0.08), 0 6px 20px rgba(22,24,26,0.06)",
   },
   dark: {
@@ -20,6 +21,7 @@ export const THEMES = {
     accent: "#7FADBD",
     accentSoft: "#1C272D",
     onAccent: "#101215",
+    danger: "#C98D82",
     shadow: "0 1px 2px rgba(0,0,0,0.5), 0 6px 20px rgba(0,0,0,0.35)",
   },
 };
