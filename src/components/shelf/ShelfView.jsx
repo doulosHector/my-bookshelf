@@ -1,12 +1,13 @@
 import { BookCard } from "./BookCard";
 import { ShelfFilters } from "./ShelfFilters";
 import { ShelfSearch } from "./ShelfSearch";
+import { ShelfSort } from "./ShelfSort";
 import { EmptyState } from "../ui/EmptyState";
 import { useTheme } from "../../hooks/useTheme";
 
 export function ShelfView({ shelf, onSelectBook }) {
   const { styles } = useTheme();
-  const { query, update, genres, visible, total } = shelf;
+  const { query, update, toggleSort, genres, visible, total } = shelf;
 
   const isEmptyShelf = total === 0;
 
@@ -14,10 +15,11 @@ export function ShelfView({ shelf, onSelectBook }) {
     <>
       <section
         style={{ ...styles.card, padding: "14px 16px", marginBottom: 18, display: "grid", gap: 12 }}
-        aria-label="Filtros"
+        aria-label="Filtros y orden"
       >
         <ShelfFilters genres={genres} query={query} onChange={update} />
         <ShelfSearch value={query.search} onChange={(search) => update({ search })} />
+        <ShelfSort sort={query.sort} onToggle={toggleSort} />
       </section>
 
       {visible.length === 0 ? (

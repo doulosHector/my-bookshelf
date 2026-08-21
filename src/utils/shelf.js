@@ -1,4 +1,5 @@
 import { ALL_FILTER } from "../constants/books";
+import { SORT_MODES } from "../constants/shelf";
 
 /** Lowercase and without diacritics, so "Bronte" also matches "Brontë". */
 function fold(text) {
@@ -30,4 +31,22 @@ export function filterBooks(books, query) {
     if (!needle) return true;
     return fold(book.titulo).includes(needle) || fold(book.autor).includes(needle);
   });
+}
+
+/**
+ * Alphabetically by title, or the most recent reading first. The sort is
+ * stable, so books with no reading date keep their order at the end.
+ * @param {object[]} books
+ * @param {string} sort see SORT_MODES
+ */
+export function sortBooks(books, sort) {
+  const sorted = [...books];
+
+  if (sort === SORT_MODES.title) {
+    sorted.sort((a, b) => a.titulo.localeCompare(b.titulo, "es"));
+  } else {
+    sorted.sort((a, b) => (b.fechaFin || "").localeCompare(a.fechaFin || ""));
+  }
+
+  return sorted;
 }
