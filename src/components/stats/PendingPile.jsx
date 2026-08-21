@@ -30,14 +30,14 @@ export function PendingPile({ count, months, oldest }) {
         {months !== null && ` · ≈ ${waitLabel(months)} para terminarla a tu ritmo actual`}
       </p>
 
-      <div style={{ display: "grid", gap: 8 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 8 }}>
         {oldest.map((book) => (
           <div
             key={book.id ?? book.titulo}
             style={{ display: "flex", gap: 10, justifyContent: "space-between", fontSize: 13 }}
           >
             <span
-              style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+              style={{ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
             >
               {book.titulo}
             </span>

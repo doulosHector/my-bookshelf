@@ -21,7 +21,16 @@ export function TopBooks({ books }) {
         Por calificación; a igual calificación, el más releído primero.
       </p>
 
-      <ol style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 10 }}>
+      <ol
+        style={{
+          margin: 0,
+          padding: 0,
+          listStyle: "none",
+          display: "grid",
+          gridTemplateColumns: "minmax(0, 1fr)",
+          gap: 10,
+        }}
+      >
         {books.map((book, index) => (
           <li
             key={book.id ?? book.titulo}
@@ -52,7 +61,15 @@ export function TopBooks({ books }) {
               >
                 {book.titulo}
               </div>
-              <div style={{ fontSize: 12, color: t.muted }}>
+              <div
+                style={{
+                  fontSize: 12,
+                  color: t.muted,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {book.autor || "Autor desconocido"} · {readings(book)}{" "}
                 {pluralize(readings(book), "lectura", "lecturas")}
               </div>

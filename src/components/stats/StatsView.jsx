@@ -9,11 +9,22 @@ import { useTheme } from "../../hooks/useTheme";
 import { spineColor } from "../../utils/spineColor";
 import { pluralize } from "../../utils/book";
 
+/**
+ * `min(…, 100%)` keeps the column from demanding more room than the screen has:
+ * below the minimum the track gives up and becomes one full-width column.
+ */
 const gridStyle = (minColumnWidth) => ({
   display: "grid",
-  gridTemplateColumns: `repeat(auto-fit, minmax(${minColumnWidth}px, 1fr))`,
+  gridTemplateColumns: `repeat(auto-fit, minmax(min(${minColumnWidth}px, 100%), 1fr))`,
   gap: 12,
 });
+
+/**
+ * A single column that ignores how wide its contents would like to be. Without
+ * the explicit `minmax(0, …)` the track is `auto`, and one long book title with
+ * `white-space: nowrap` inside stretched every card on the tab past the screen.
+ */
+const columnStyle = { display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 14 };
 
 const note = (...parts) => parts.filter(Boolean).join(" ") || undefined;
 
@@ -57,7 +68,7 @@ export function StatsView({ stats }) {
       : "";
 
   return (
-    <div style={{ display: "grid", gap: 14 }}>
+    <div style={columnStyle}>
       <div className="stat-grid">
         <StatCard label="Leídos este año" value={stats.esteAnio} />
         <StatCard
