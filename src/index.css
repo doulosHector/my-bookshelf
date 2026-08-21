@@ -99,6 +99,48 @@ textarea:focus-visible {
   }
 }
 
+/* Cards that hold a chart or a list: tighter on a phone so the bars keep
+   their width. */
+.panel {
+  padding: 20px;
+}
+
+.bar-chart__label {
+  font-size: 13px;
+  color: var(--color-muted);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.highlight-card {
+  padding: 18px;
+}
+
+.highlight-card__title {
+  font-size: 20px;
+}
+
+@media (max-width: 620px) {
+  .panel {
+    padding: 14px;
+  }
+
+  /* Long genre names give up room instead of squeezing the bars. */
+  .bar-chart__label {
+    max-width: 92px;
+  }
+
+  .highlight-card {
+    padding: 14px;
+  }
+
+  .highlight-card__title {
+    font-size: 18px;
+  }
+}
+
 .book-card {
   transition: transform 0.15s ease;
 }

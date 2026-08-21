@@ -17,17 +17,7 @@ export function BarChart({ items, labelWidth = 44 }) {
           key={label}
           style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}
         >
-          <span
-            style={{
-              width: labelWidth,
-              fontSize: 13,
-              color: t.muted,
-              textAlign: "right",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
+          <span className="bar-chart__label" style={{ width: labelWidth }}>
             {label}
           </span>
           <div style={{ flex: 1, background: t.bg, borderRadius: 3, height: 22, overflow: "hidden" }}>

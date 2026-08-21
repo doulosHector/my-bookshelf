@@ -5,9 +5,9 @@ export function HighlightCard({ label, title, titleColor, children }) {
   const { styles } = useTheme();
 
   return (
-    <div style={{ ...styles.card, padding: 18 }}>
+    <div className="highlight-card" style={styles.card}>
       <div style={styles.label}>{label}</div>
-      <div className="serif" style={{ fontSize: 20, color: titleColor }}>
+      <div className="highlight-card__title serif" style={{ color: titleColor }}>
         {title}
       </div>
       {children}

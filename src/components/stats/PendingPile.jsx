@@ -21,7 +21,7 @@ export function PendingPile({ count, months, oldest }) {
   const { t, styles } = useTheme();
 
   return (
-    <section style={{ ...styles.card, padding: 20 }}>
+    <section className="panel" style={styles.card}>
       <h3 className="serif" style={{ margin: "0 0 4px", fontSize: 18 }}>
         Tu pila de pendientes
       </h3>

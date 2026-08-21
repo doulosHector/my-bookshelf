@@ -9,7 +9,7 @@ export function ChartSection({ title, items, labelWidth, note }) {
   const { t, styles } = useTheme();
 
   return (
-    <section style={{ ...styles.card, padding: 20 }}>
+    <section className="panel" style={styles.card}>
       <h3 className="serif" style={{ margin: "0 0 14px", fontSize: 18 }}>
         {title}
       </h3>
