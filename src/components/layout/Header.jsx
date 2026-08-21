@@ -5,10 +5,15 @@ import { DataActions } from "./DataActions";
 export function Header({ stats, onAddBook, canExport, onExport, onImport }) {
   const { theme, t, styles, toggleTheme } = useTheme();
 
-  const summary =
-    stats.total === 0
-      ? "Tu registro personal de lectura"
-      : `${stats.totalLeidos} leídos · ${stats.leyendo} en curso · ${stats.pendientes} pendientes`;
+  // Every status is listed, so the counts add up to the shelf.
+  const counts = [
+    `${stats.totalLeidos} leídos`,
+    `${stats.leyendo} en curso`,
+    `${stats.pendientes} pendientes`,
+    stats.abandonados > 0 ? `${stats.abandonados} abandonados` : "",
+  ].filter(Boolean);
+
+  const summary = stats.total === 0 ? "Tu registro personal de lectura" : counts.join(" · ");
 
   return (
     <header

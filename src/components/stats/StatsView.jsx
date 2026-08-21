@@ -90,6 +90,17 @@ export function StatsView({ stats }) {
           </HighlightCard>
         )}
 
+        {stats.abandonados > 0 && (
+          <HighlightCard label="Abandonados" title={String(stats.abandonados)}>
+            <div style={{ fontSize: 13, color: t.muted }}>
+              {Math.round(
+                (stats.abandonados / (stats.totalLeidos + stats.abandonados)) * 100,
+              )}
+              % de los libros que empezaste
+            </div>
+          </HighlightCard>
+        )}
+
         {stats.mejorCalificado && (
           <HighlightCard label="Mejor calificado" title={stats.mejorCalificado.titulo}>
             <Stars value={stats.mejorCalificado.calificacion} size={15} />

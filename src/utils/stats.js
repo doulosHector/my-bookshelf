@@ -49,6 +49,7 @@ function readingPace(finishedDates, now) {
  */
 export function computeStats(books, now = new Date()) {
   const leidos = books.filter((b) => b.estatus === "Leído");
+  const abandonados = books.filter((b) => b.estatus === "Abandonado");
   const currentYear = now.getFullYear();
 
   const finishedDates = leidos.map((b) => parseDate(b.fechaFin)).filter(Boolean);
@@ -71,6 +72,10 @@ export function computeStats(books, now = new Date()) {
   return {
     total: books.length,
     totalLeidos: leidos.length,
+    leyendo: books.filter((b) => b.estatus === "Leyendo").length,
+    pendientes: books.filter((b) => b.estatus === "Pendiente").length,
+    abandonados: abandonados.length,
+
     esteAnio: porAnio[currentYear] || 0,
     ritmo: ritmo > 0 ? ritmo.toFixed(1) : "—",
     ultimos12,
@@ -81,7 +86,5 @@ export function computeStats(books, now = new Date()) {
     generoTop,
     masReleido,
     mejorCalificado,
-    leyendo: books.filter((b) => b.estatus === "Leyendo").length,
-    pendientes: books.filter((b) => b.estatus === "Pendiente").length,
   };
 }
