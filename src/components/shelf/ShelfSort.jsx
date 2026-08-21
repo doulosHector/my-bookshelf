@@ -12,28 +12,26 @@ export function ShelfSort({ sort, onToggle }) {
   const next = OTHER_MODE[sort];
 
   return (
-    <div style={{ display: "flex", justifyContent: "flex-end" }}>
-      <button
-        type="button"
-        onClick={onToggle}
-        title={`Ordenar por ${SORT_LABELS[next]}`}
-        aria-label={`Orden actual: ${SORT_LABELS[sort]}. Cambiar a ${SORT_LABELS[next]}.`}
-        style={{
-          ...styles.btnGhost,
-          color: t.ink,
-          fontSize: 13,
-          padding: "8px 13px",
-          display: "inline-flex",
-          gap: 7,
-          alignItems: "center",
-        }}
-      >
-        <span style={{ color: t.muted }}>Orden:</span>
-        {SORT_LABELS[sort]}
-        <span aria-hidden="true" style={{ color: t.muted }}>
-          ⇅
-        </span>
-      </button>
-    </div>
+    <button
+      type="button"
+      onClick={onToggle}
+      title={`Ordenar por ${SORT_LABELS[next]}`}
+      aria-label={`Orden actual: ${SORT_LABELS[sort]}. Cambiar a ${SORT_LABELS[next]}.`}
+      style={{
+        ...styles.btnGhost,
+        color: t.ink,
+        fontSize: 13,
+        padding: "8px 13px",
+        display: "inline-flex",
+        gap: 7,
+        alignItems: "center",
+      }}
+    >
+      <span style={{ color: t.muted }}>Orden:</span>
+      {SORT_LABELS[sort]}
+      <span aria-hidden="true" style={{ color: t.muted }}>
+        ⇅
+      </span>
+    </button>
   );
 }

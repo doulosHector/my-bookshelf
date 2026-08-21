@@ -3,24 +3,23 @@ import { ShelfFilters } from "./ShelfFilters";
 import { ShelfSearch } from "./ShelfSearch";
 import { ShelfSort } from "./ShelfSort";
 import { EmptyState } from "../ui/EmptyState";
-import { useTheme } from "../../hooks/useTheme";
 
 export function ShelfView({ shelf, onSelectBook }) {
-  const { styles } = useTheme();
   const { query, update, toggleSort, genres, visible, total } = shelf;
 
   const isEmptyShelf = total === 0;
 
   return (
     <>
-      <section
-        style={{ ...styles.card, padding: "14px 16px", marginBottom: 18, display: "grid", gap: 12 }}
-        aria-label="Filtros y orden"
-      >
+      <div style={{ display: "grid", gap: 10, marginBottom: 18 }}>
         <ShelfFilters genres={genres} query={query} onChange={update} />
+
         <ShelfSearch value={query.search} onChange={(search) => update({ search })} />
-        <ShelfSort sort={query.sort} onToggle={toggleSort} />
-      </section>
+
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <ShelfSort sort={query.sort} onToggle={toggleSort} />
+        </div>
+      </div>
 
       {visible.length === 0 ? (
         <EmptyState

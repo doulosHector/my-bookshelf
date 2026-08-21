@@ -13,12 +13,15 @@ export function ShelfFilters({ genres, query, onChange }) {
   const select = { ...styles.input, fontSize: 14, padding: "9px 10px" };
 
   return (
-    <div
+    <section
       style={{
+        ...styles.card,
+        padding: "12px 12px 14px",
         display: "grid",
         gridTemplateColumns: "repeat(auto-fit, minmax(132px, 1fr))",
         gap: 10,
       }}
+      aria-label="Filtros"
     >
       <div>
         <label style={styles.label} htmlFor="filtro-estatus">
@@ -66,6 +69,6 @@ export function ShelfFilters({ genres, query, onChange }) {
           ))}
         </select>
       </div>
-    </div>
+    </section>
   );
 }
