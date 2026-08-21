@@ -2,8 +2,8 @@ import { useMemo } from "react";
 import { StatCard } from "./StatCard";
 import { HighlightCard } from "./HighlightCard";
 import { ChartSection } from "./ChartSection";
+import { TopBooks } from "./TopBooks";
 import { EmptyState } from "../ui/EmptyState";
-import { Stars } from "../ui/Stars";
 import { useTheme } from "../../hooks/useTheme";
 import { spineColor } from "../../utils/spineColor";
 import { pluralize } from "../../utils/book";
@@ -56,6 +56,8 @@ export function StatsView({ stats }) {
         />
       </div>
 
+      {stats.top.length > 0 && <TopBooks books={stats.top} />}
+
       {yearItems.length > 0 && (
         <ChartSection
           title="Libros leídos por año"
@@ -101,11 +103,6 @@ export function StatsView({ stats }) {
           </HighlightCard>
         )}
 
-        {stats.mejorCalificado && (
-          <HighlightCard label="Mejor calificado" title={stats.mejorCalificado.titulo}>
-            <Stars value={stats.mejorCalificado.calificacion} size={15} />
-          </HighlightCard>
-        )}
       </div>
     </div>
   );

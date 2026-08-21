@@ -1,4 +1,5 @@
 const TOP_GENRES = 6;
+const TOP_BOOKS = 5;
 const MONTHS_PER_YEAR = 12;
 const DAYS_PER_MONTH = 30.44;
 const MS_PER_DAY = 86_400_000;
@@ -42,6 +43,13 @@ function readingPace(finishedDates, now) {
   return { ritmo: recent.length / months, ultimos12: recent.length };
 }
 
+/** Best rated first; books tied on stars are ordered by the latest reading. */
+function byRatingThenReading(a, b) {
+  return (
+    b.calificacion - a.calificacion || (b.fechaFin || "").localeCompare(a.fechaFin || "")
+  );
+}
+
 /**
  * Aggregates the reading stats shown in the "Estadísticas" tab.
  * @param {object[]} books
@@ -50,6 +58,7 @@ function readingPace(finishedDates, now) {
 export function computeStats(books, now = new Date()) {
   const leidos = books.filter((b) => b.estatus === "Leído");
   const abandonados = books.filter((b) => b.estatus === "Abandonado");
+  const calificados = books.filter((b) => b.calificacion > 0);
   const currentYear = now.getFullYear();
 
   const finishedDates = leidos.map((b) => parseDate(b.fechaFin)).filter(Boolean);
@@ -61,10 +70,6 @@ export function computeStats(books, now = new Date()) {
   const masReleido = highest(
     books.filter((b) => b.vecesLeido > 1),
     (b) => b.vecesLeido,
-  );
-  const mejorCalificado = highest(
-    books.filter((b) => b.calificacion > 0),
-    (b) => b.calificacion,
   );
 
   const { ritmo, ultimos12 } = readingPace(finishedDates, now);
@@ -85,6 +90,6 @@ export function computeStats(books, now = new Date()) {
       .slice(0, TOP_GENRES),
     generoTop,
     masReleido,
-    mejorCalificado,
+    top: [...calificados].sort(byRatingThenReading).slice(0, TOP_BOOKS),
   };
 }
