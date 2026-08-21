@@ -7,7 +7,8 @@ import { useTheme } from "../../hooks/useTheme";
  */
 export function BarChart({ items, labelWidth = 44 }) {
   const { t } = useTheme();
-  const max = Math.max(...items.map((item) => item.value));
+  // Guarded: a chart where every value is zero would divide by zero.
+  const max = Math.max(1, ...items.map((item) => item.value));
 
   return (
     <div>
@@ -30,24 +31,32 @@ export function BarChart({ items, labelWidth = 44 }) {
             {label}
           </span>
           <div style={{ flex: 1, background: t.bg, borderRadius: 3, height: 22, overflow: "hidden" }}>
-            <div
-              style={{
-                width: `${(value / max) * 100}%`,
-                minWidth: 26,
-                height: "100%",
-                background: color || t.accent,
-                borderRadius: 3,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                paddingRight: 8,
-                boxSizing: "border-box",
-              }}
-            >
-              <span style={{ fontSize: 12, fontWeight: 700, color: color ? "#F4F4F1" : t.onAccent }}>
-                {value}
+            {value > 0 ? (
+              <div
+                style={{
+                  width: `${(value / max) * 100}%`,
+                  minWidth: 26,
+                  height: "100%",
+                  background: color || t.accent,
+                  borderRadius: 3,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                  paddingRight: 8,
+                  boxSizing: "border-box",
+                }}
+              >
+                <span
+                  style={{ fontSize: 12, fontWeight: 700, color: color ? "#F4F4F1" : t.onAccent }}
+                >
+                  {value}
+                </span>
+              </div>
+            ) : (
+              <span style={{ fontSize: 12, color: t.muted, padding: "0 8px", lineHeight: "22px" }}>
+                0
               </span>
-            </div>
+            )}
           </div>
         </div>
       ))}
