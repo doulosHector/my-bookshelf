@@ -21,6 +21,10 @@ export function StatsView({ stats }) {
     () => stats.porAnio.map(([year, count]) => ({ label: year, value: count })),
     [stats.porAnio],
   );
+  const monthItems = useMemo(
+    () => stats.porMes.map(([month, count]) => ({ label: month, value: count })),
+    [stats.porMes],
+  );
   const ratingItems = useMemo(
     () => stats.porCalificacion.map(([stars, count]) => ({ label: "★".repeat(stars), value: count })),
     [stats.porCalificacion],
@@ -84,6 +88,14 @@ export function StatsView({ stats }) {
           title="Libros leídos por año"
           items={yearItems}
           note="Se cuenta según la fecha de fin de lectura de los libros marcados como «Leído»."
+        />
+      )}
+
+      {monthItems.some((item) => item.value > 0) && (
+        <ChartSection
+          title={`Libros leídos en ${stats.anioActual}`}
+          items={monthItems}
+          note="De enero al mes en curso."
         />
       )}
 

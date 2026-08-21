@@ -6,6 +6,21 @@ const MS_PER_DAY = 86_400_000;
 const MS_PER_MONTH = DAYS_PER_MONTH * MS_PER_DAY;
 const RATINGS = [5, 4, 3, 2, 1];
 
+const MONTH_LABELS = [
+  "Ene",
+  "Feb",
+  "Mar",
+  "Abr",
+  "May",
+  "Jun",
+  "Jul",
+  "Ago",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dic",
+];
+
 /** Both `fechaFin` (YYYY-MM-DD) and `agregado` (full ISO) end up here. */
 function parseDate(value) {
   if (!value) return null;
@@ -44,6 +59,19 @@ function readingPace(finishedDates, now) {
   const months = Math.min(MONTHS_PER_YEAR, Math.max(1, tracked));
 
   return { ritmo: recent.length / months, ultimos12: recent.length };
+}
+
+/** Books finished each month of the current year, up to the month we are in. */
+function monthlyCount(leidos, now) {
+  const currentYear = now.getFullYear();
+  const finished = leidos
+    .map((book) => parseDate(book.fechaFin))
+    .filter((date) => date && date.getFullYear() === currentYear);
+
+  return MONTH_LABELS.slice(0, now.getMonth() + 1).map((label, month) => [
+    label,
+    finished.filter((date) => date.getMonth() === month).length,
+  ]);
 }
 
 /** Best rated first; books tied on stars are ordered by the latest reading. */
@@ -87,6 +115,7 @@ export function computeStats(books, now = new Date()) {
     // Re-reads: a book read four times is one book but four readings.
     lecturas: sum(books, (b) => Number(b.vecesLeido) || 0),
 
+    anioActual: currentYear,
     esteAnio: porAnio[currentYear] || 0,
     ritmo: ritmo > 0 ? ritmo.toFixed(1) : "—",
     ultimos12,
@@ -99,6 +128,7 @@ export function computeStats(books, now = new Date()) {
       calificados.filter((b) => b.calificacion === stars).length,
     ]),
     porAnio: Object.entries(porAnio).sort((a, b) => a[0] - b[0]),
+    porMes: monthlyCount(leidos, now),
     porGenero: Object.entries(porGenero)
       .sort((a, b) => b[1] - a[1])
       .slice(0, TOP_GENRES),
