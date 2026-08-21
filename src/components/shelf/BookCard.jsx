@@ -51,7 +51,7 @@ export function BookCard({ book, onSelect }) {
           }}
         >
           {book.calificacion > 0 && <Stars value={book.calificacion} size={15} />}
-          {book.fechaFin && <span>Terminado: {book.fechaFin}</span>}
+          {book.fechaFin && <span>Ult. lectura: {book.fechaFin}</span>}
           {book.vecesLeido > 1 && <span>Leído {book.vecesLeido} veces</span>}
         </div>
 
