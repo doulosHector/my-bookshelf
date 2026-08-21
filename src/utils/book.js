@@ -26,13 +26,6 @@ export function createBookId() {
   return `${Date.now().toString(36)}-${sequence.toString(36)}`;
 }
 
-/** Year in which the book was finished, or null when there is no valid date. */
-export function finishedYear(book) {
-  if (!book.fechaFin) return null;
-  const year = new Date(`${book.fechaFin}T12:00:00`).getFullYear();
-  return Number.isNaN(year) ? null : year;
-}
-
 /**
  * Turns a stored ISO date (YYYY-MM-DD) into the DD-MM-YYYY form the cards
  * show. Anything that is not an ISO date comes back untouched.

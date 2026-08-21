@@ -49,9 +49,9 @@ export function StatsView({ stats }) {
           label="Ritmo mensual"
           value={stats.ritmo}
           hint={
-            stats.proyeccion
-              ? `≈ ${stats.proyeccion} al año a este paso`
-              : "Sin lecturas este año"
+            stats.ultimos12 > 0
+              ? `${stats.ultimos12} en los últimos 12 meses`
+              : "Sin lecturas en el último año"
           }
         />
       </div>
