@@ -1,5 +1,6 @@
 const TOP_GENRES = 6;
 const TOP_BOOKS = 5;
+const OLDEST_PENDING = 3;
 const MONTHS_PER_YEAR = 12;
 const DAYS_PER_MONTH = 30.44;
 const MS_PER_DAY = 86_400_000;
@@ -74,6 +75,15 @@ function monthlyCount(leidos, now) {
   ]);
 }
 
+/** Oldest first, and the books with no `agregado` date go last. */
+function byWaitingLongest(a, b) {
+  const dateA = parseDate(a.agregado);
+  const dateB = parseDate(b.agregado);
+  if (!dateA) return 1;
+  if (!dateB) return -1;
+  return dateA - dateB;
+}
+
 /** Best rated first; books tied on stars are ordered by the latest reading. */
 function byRatingThenReading(a, b) {
   return (
@@ -88,6 +98,7 @@ function byRatingThenReading(a, b) {
  */
 export function computeStats(books, now = new Date()) {
   const leidos = books.filter((b) => b.estatus === "Leído");
+  const pendientes = books.filter((b) => b.estatus === "Pendiente");
   const abandonados = books.filter((b) => b.estatus === "Abandonado");
   const calificados = books.filter((b) => b.calificacion > 0);
   const currentYear = now.getFullYear();
@@ -105,11 +116,14 @@ export function computeStats(books, now = new Date()) {
 
   const { ritmo, ultimos12 } = readingPace(finishedDates, now);
 
+  // How long the pile would take at the current pace. Meaningless without one.
+  const mesesPendientes = ritmo > 0 && pendientes.length > 0 ? pendientes.length / ritmo : null;
+
   return {
     total: books.length,
     totalLeidos: leidos.length,
     leyendo: books.filter((b) => b.estatus === "Leyendo").length,
-    pendientes: books.filter((b) => b.estatus === "Pendiente").length,
+    pendientes: pendientes.length,
     abandonados: abandonados.length,
 
     // Re-reads: a book read four times is one book but four readings.
@@ -135,5 +149,7 @@ export function computeStats(books, now = new Date()) {
     generoTop,
     masReleido,
     top: [...calificados].sort(byRatingThenReading).slice(0, TOP_BOOKS),
+    pendientesAntiguos: [...pendientes].sort(byWaitingLongest).slice(0, OLDEST_PENDING),
+    mesesPendientes,
   };
 }

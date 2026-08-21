@@ -3,6 +3,7 @@ import { StatCard } from "./StatCard";
 import { HighlightCard } from "./HighlightCard";
 import { ChartSection } from "./ChartSection";
 import { TopBooks } from "./TopBooks";
+import { PendingPile } from "./PendingPile";
 import { EmptyState } from "../ui/EmptyState";
 import { useTheme } from "../../hooks/useTheme";
 import { spineColor } from "../../utils/spineColor";
@@ -105,6 +106,14 @@ export function StatsView({ stats }) {
 
       {genreItems.length > 0 && (
         <ChartSection title="Géneros más leídos" items={genreItems} labelWidth={110} />
+      )}
+
+      {stats.pendientes > 0 && (
+        <PendingPile
+          count={stats.pendientes}
+          months={stats.mesesPendientes}
+          oldest={stats.pendientesAntiguos}
+        />
       )}
 
       <div style={gridStyle(230)}>
