@@ -15,6 +15,8 @@ const gridStyle = (minColumnWidth) => ({
   gap: 12,
 });
 
+const note = (...parts) => parts.filter(Boolean).join(" ") || undefined;
+
 export function StatsView({ stats }) {
   const { t } = useTheme();
 
@@ -31,11 +33,12 @@ export function StatsView({ stats }) {
     [stats.porCalificacion],
   );
   const genreItems = useMemo(
-    () => stats.porGenero.map(([genre, count]) => ({
-      label: genre,
-      value: count,
-      color: spineColor(genre),
-    })),
+    () =>
+      stats.porGenero.map(([genre, count]) => ({
+        label: genre,
+        value: count,
+        color: spineColor(genre),
+      })),
     [stats.porGenero],
   );
 
@@ -47,6 +50,11 @@ export function StatsView({ stats }) {
       />
     );
   }
+
+  const skippedDates =
+    stats.sinFecha > 0
+      ? `${stats.sinFecha} ${pluralize(stats.sinFecha, "libro leído", "libros leídos")} sin fecha no ${pluralize(stats.sinFecha, "aparece", "aparecen")} aquí.`
+      : "";
 
   return (
     <div style={{ display: "grid", gap: 14 }}>
@@ -88,7 +96,10 @@ export function StatsView({ stats }) {
         <ChartSection
           title="Libros leídos por año"
           items={yearItems}
-          note="Se cuenta según la fecha de fin de lectura de los libros marcados como «Leído»."
+          note={note(
+            "Se cuenta según la fecha de fin de lectura de los libros marcados como «Leído».",
+            skippedDates,
+          )}
         />
       )}
 
@@ -96,16 +107,37 @@ export function StatsView({ stats }) {
         <ChartSection
           title={`Libros leídos en ${stats.anioActual}`}
           items={monthItems}
-          note="De enero al mes en curso."
+          note={note("De enero al mes en curso.", skippedDates)}
         />
       )}
 
       {stats.calificados > 0 && (
-        <ChartSection title="Cómo calificas" items={ratingItems} labelWidth={74} />
+        <ChartSection
+          title="Cómo calificas"
+          items={ratingItems}
+          labelWidth={74}
+          note={note(
+            stats.sinCalificar > 0
+              ? `${stats.sinCalificar} ${pluralize(stats.sinCalificar, "libro", "libros")} sin calificar no ${pluralize(stats.sinCalificar, "aparece", "aparecen")} aquí.`
+              : "",
+          )}
+        />
       )}
 
       {genreItems.length > 0 && (
-        <ChartSection title="Géneros más leídos" items={genreItems} labelWidth={110} />
+        <ChartSection
+          title="Géneros más leídos"
+          items={genreItems}
+          labelWidth={110}
+          note={note(
+            stats.generosOcultos > 0
+              ? `Se muestran los ${genreItems.length} primeros de ${genreItems.length + stats.generosOcultos} géneros.`
+              : "",
+            stats.sinGenero > 0
+              ? `${stats.sinGenero} ${pluralize(stats.sinGenero, "libro leído", "libros leídos")} sin género no ${pluralize(stats.sinGenero, "aparece", "aparecen")} aquí.`
+              : "",
+          )}
+        />
       )}
 
       {stats.pendientes > 0 && (
@@ -148,7 +180,6 @@ export function StatsView({ stats }) {
             </div>
           </HighlightCard>
         )}
-
       </div>
     </div>
   );

@@ -107,12 +107,8 @@ export function computeStats(books, now = new Date()) {
 
   const porAnio = countBy(leidos, (b) => parseDate(b.fechaFin)?.getFullYear() ?? null);
   const porGenero = countBy(leidos, (b) => b.genero);
-  const generoTop = Object.entries(porGenero).sort((a, b) => b[1] - a[1])[0] || null;
-
-  const masReleido = highest(
-    books.filter((b) => b.vecesLeido > 1),
-    (b) => b.vecesLeido,
-  );
+  const generos = Object.entries(porGenero).sort((a, b) => b[1] - a[1]);
+  const generoTop = generos[0] || null;
 
   const { ritmo, ultimos12 } = readingPace(finishedDates, now);
 
@@ -141,13 +137,21 @@ export function computeStats(books, now = new Date()) {
       stars,
       calificados.filter((b) => b.calificacion === stars).length,
     ]),
+
     porAnio: Object.entries(porAnio).sort((a, b) => a[0] - b[0]),
     porMes: monthlyCount(leidos, now),
-    porGenero: Object.entries(porGenero)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, TOP_GENRES),
+    porGenero: generos.slice(0, TOP_GENRES),
+
+    // What the charts leave out, so the totals can be reconciled.
+    sinFecha: leidos.length - finishedDates.length,
+    sinGenero: leidos.filter((b) => !b.genero).length,
+    generosOcultos: Math.max(0, generos.length - TOP_GENRES),
+
     generoTop,
-    masReleido,
+    masReleido: highest(
+      books.filter((b) => b.vecesLeido > 1),
+      (b) => b.vecesLeido,
+    ),
     top: [...calificados].sort(byRatingThenReading).slice(0, TOP_BOOKS),
     pendientesAntiguos: [...pendientes].sort(byWaitingLongest).slice(0, OLDEST_PENDING),
     mesesPendientes,
