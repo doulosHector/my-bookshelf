@@ -84,6 +84,9 @@ export function computeStats(books, now = new Date()) {
     pendientes: books.filter((b) => b.estatus === "Pendiente").length,
     abandonados: abandonados.length,
 
+    // Re-reads: a book read four times is one book but four readings.
+    lecturas: sum(books, (b) => Number(b.vecesLeido) || 0),
+
     esteAnio: porAnio[currentYear] || 0,
     ritmo: ritmo > 0 ? ritmo.toFixed(1) : "—",
     ultimos12,

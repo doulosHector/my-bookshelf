@@ -47,7 +47,15 @@ export function StatsView({ stats }) {
     <div style={{ display: "grid", gap: 14 }}>
       <div style={gridStyle(150)}>
         <StatCard label="Leídos este año" value={stats.esteAnio} />
-        <StatCard label="Total leídos" value={stats.totalLeidos} />
+        <StatCard
+          label="Total leídos"
+          value={stats.totalLeidos}
+          hint={
+            stats.lecturas > stats.totalLeidos
+              ? `${stats.lecturas} lecturas con las relecturas`
+              : undefined
+          }
+        />
         <StatCard label="En el librero" value={stats.total} />
         <StatCard
           label="Calificación promedio"
