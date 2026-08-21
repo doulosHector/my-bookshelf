@@ -21,6 +21,10 @@ export function StatsView({ stats }) {
     () => stats.porAnio.map(([year, count]) => ({ label: year, value: count })),
     [stats.porAnio],
   );
+  const ratingItems = useMemo(
+    () => stats.porCalificacion.map(([stars, count]) => ({ label: "★".repeat(stars), value: count })),
+    [stats.porCalificacion],
+  );
   const genreItems = useMemo(
     () => stats.porGenero.map(([genre, count]) => ({
       label: genre,
@@ -46,6 +50,15 @@ export function StatsView({ stats }) {
         <StatCard label="Total leídos" value={stats.totalLeidos} />
         <StatCard label="En el librero" value={stats.total} />
         <StatCard
+          label="Calificación promedio"
+          value={stats.promedio > 0 ? stats.promedio.toFixed(1) : "—"}
+          hint={
+            stats.calificados > 0
+              ? `De ${stats.calificados} ${pluralize(stats.calificados, "libro calificado", "libros calificados")}`
+              : "Todavía sin calificaciones"
+          }
+        />
+        <StatCard
           label="Ritmo mensual"
           value={stats.ritmo}
           hint={
@@ -64,6 +77,10 @@ export function StatsView({ stats }) {
           items={yearItems}
           note="Se cuenta según la fecha de fin de lectura de los libros marcados como «Leído»."
         />
+      )}
+
+      {stats.calificados > 0 && (
+        <ChartSection title="Cómo calificas" items={ratingItems} labelWidth={74} />
       )}
 
       {genreItems.length > 0 && (

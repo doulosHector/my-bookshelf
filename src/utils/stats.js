@@ -4,6 +4,7 @@ const MONTHS_PER_YEAR = 12;
 const DAYS_PER_MONTH = 30.44;
 const MS_PER_DAY = 86_400_000;
 const MS_PER_MONTH = DAYS_PER_MONTH * MS_PER_DAY;
+const RATINGS = [5, 4, 3, 2, 1];
 
 /** Both `fechaFin` (YYYY-MM-DD) and `agregado` (full ISO) end up here. */
 function parseDate(value) {
@@ -24,6 +25,8 @@ const countBy = (books, getKey) =>
 
 const highest = (books, getValue) =>
   books.reduce((best, book) => (!best || getValue(book) > getValue(best) ? book : best), null);
+
+const sum = (books, getValue) => books.reduce((acc, book) => acc + getValue(book), 0);
 
 /**
  * Reading pace over the trailing twelve months. Anchoring it to the calendar
@@ -84,6 +87,14 @@ export function computeStats(books, now = new Date()) {
     esteAnio: porAnio[currentYear] || 0,
     ritmo: ritmo > 0 ? ritmo.toFixed(1) : "—",
     ultimos12,
+
+    promedio: calificados.length > 0 ? sum(calificados, (b) => b.calificacion) / calificados.length : 0,
+    calificados: calificados.length,
+    sinCalificar: books.length - calificados.length,
+    porCalificacion: RATINGS.map((stars) => [
+      stars,
+      calificados.filter((b) => b.calificacion === stars).length,
+    ]),
     porAnio: Object.entries(porAnio).sort((a, b) => a[0] - b[0]),
     porGenero: Object.entries(porGenero)
       .sort((a, b) => b[1] - a[1])
