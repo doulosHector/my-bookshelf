@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { StatCard } from "./StatCard";
 import { HighlightCard } from "./HighlightCard";
-import { BarChart } from "../ui/BarChart";
+import { ChartSection } from "./ChartSection";
 import { EmptyState } from "../ui/EmptyState";
 import { Stars } from "../ui/Stars";
 import { useTheme } from "../../hooks/useTheme";
@@ -15,7 +15,7 @@ const gridStyle = (minColumnWidth) => ({
 });
 
 export function StatsView({ stats }) {
-  const { t, styles } = useTheme();
+  const { t } = useTheme();
 
   const yearItems = useMemo(
     () => stats.porAnio.map(([year, count]) => ({ label: year, value: count })),
@@ -57,24 +57,15 @@ export function StatsView({ stats }) {
       </div>
 
       {yearItems.length > 0 && (
-        <section style={{ ...styles.card, padding: 20 }}>
-          <h3 className="serif" style={{ margin: "0 0 14px", fontSize: 18 }}>
-            Libros leídos por año
-          </h3>
-          <BarChart items={yearItems} />
-          <p style={{ fontSize: 12, color: t.muted, margin: "10px 0 0" }}>
-            Se cuenta según la fecha de fin de lectura de los libros marcados como «Leído».
-          </p>
-        </section>
+        <ChartSection
+          title="Libros leídos por año"
+          items={yearItems}
+          note="Se cuenta según la fecha de fin de lectura de los libros marcados como «Leído»."
+        />
       )}
 
       {genreItems.length > 0 && (
-        <section style={{ ...styles.card, padding: 20 }}>
-          <h3 className="serif" style={{ margin: "0 0 14px", fontSize: 18 }}>
-            Géneros más leídos
-          </h3>
-          <BarChart items={genreItems} labelWidth={110} />
-        </section>
+        <ChartSection title="Géneros más leídos" items={genreItems} labelWidth={110} />
       )}
 
       <div style={gridStyle(230)}>
