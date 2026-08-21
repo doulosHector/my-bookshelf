@@ -2,7 +2,7 @@ import { useTheme } from "../../hooks/useTheme";
 import { Badge } from "../ui/Badge";
 import { Stars } from "../ui/Stars";
 import { spineColor } from "../../utils/spineColor";
-import { truncate } from "../../utils/book";
+import { formatDate, truncate } from "../../utils/book";
 import { MAX_REVIEW_PREVIEW, STATUS_STYLE } from "../../constants/books";
 
 export function BookCard({ book, onSelect }) {
@@ -51,7 +51,7 @@ export function BookCard({ book, onSelect }) {
           }}
         >
           {book.calificacion > 0 && <Stars value={book.calificacion} size={15} />}
-          {book.fechaFin && <span>Ult. lectura: {book.fechaFin}</span>}
+          {book.fechaFin && <span>Ult. lectura: {formatDate(book.fechaFin)}</span>}
           {book.vecesLeido > 1 && <span>Leído {book.vecesLeido} veces</span>}
         </div>
 

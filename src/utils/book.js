@@ -33,6 +33,15 @@ export function finishedYear(book) {
   return Number.isNaN(year) ? null : year;
 }
 
+/**
+ * Turns a stored ISO date (YYYY-MM-DD) into the DD-MM-YYYY form the cards
+ * show. Anything that is not an ISO date comes back untouched.
+ */
+export function formatDate(iso) {
+  const parts = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso ?? "");
+  return parts ? `${parts[3]}-${parts[2]}-${parts[1]}` : (iso ?? "");
+}
+
 export function truncate(text, maxLength) {
   return text.length > maxLength ? `${text.slice(0, maxLength)}…` : text;
 }
