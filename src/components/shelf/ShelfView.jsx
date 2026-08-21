@@ -1,5 +1,6 @@
 import { BookCard } from "./BookCard";
 import { ShelfFilters } from "./ShelfFilters";
+import { ShelfSearch } from "./ShelfSearch";
 import { EmptyState } from "../ui/EmptyState";
 import { useTheme } from "../../hooks/useTheme";
 
@@ -16,16 +17,17 @@ export function ShelfView({ shelf, onSelectBook }) {
         aria-label="Filtros"
       >
         <ShelfFilters genres={genres} query={query} onChange={update} />
+        <ShelfSearch value={query.search} onChange={(search) => update({ search })} />
       </section>
 
       {visible.length === 0 ? (
         <EmptyState
           icon="▮▮▮"
-          title={isEmptyShelf ? "Tu librero está vacío" : "Nada con estos filtros"}
+          title={isEmptyShelf ? "Tu librero está vacío" : "Sin resultados"}
           description={
             isEmptyShelf
               ? "Agrega tu primer libro para empezar el registro."
-              : "Prueba con otros filtros o agrega un libro nuevo."
+              : "Prueba con otros filtros o busca otro título."
           }
         />
       ) : (

@@ -8,4 +8,5 @@ export const EMPTY_QUERY = {
   estatus: ALL_FILTER,
   genero: ALL_FILTER,
   calificacion: ALL_FILTER,
+  search: "",
 };
