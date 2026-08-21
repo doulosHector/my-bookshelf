@@ -6,12 +6,13 @@ import { StatsView } from "./components/stats/StatsView";
 import { BookFormModal } from "./components/book-form/BookFormModal";
 import { ImportCsvModal } from "./components/csv/ImportCsvModal";
 import { useBooks } from "./hooks/useBooks";
+import { useShelfQuery } from "./hooks/useShelfQuery";
 import { useTheme } from "./hooks/useTheme";
 import { computeStats } from "./utils/stats";
 import { booksToCsv, csvFileName } from "./utils/bookCsv";
 import { withBom } from "./utils/csv";
 import { downloadText } from "./services/file";
-import { ALL_FILTER, EMPTY_BOOK } from "./constants/books";
+import { EMPTY_BOOK } from "./constants/books";
 import { CSV_MIME } from "./constants/csv";
 
 const TABS = [
@@ -23,8 +24,9 @@ export default function App() {
   const { t, styles } = useTheme();
   const { books, saveBook, deleteBook, importBooks } = useBooks();
 
+  const shelf = useShelfQuery(books);
+
   const [view, setView] = useState(TABS[0].id);
-  const [filter, setFilter] = useState(ALL_FILTER);
   // null = modal closed; a book without id = creating a new one.
   const [editingBook, setEditingBook] = useState(null);
   const [importing, setImporting] = useState(false);
@@ -67,12 +69,7 @@ export default function App() {
 
       <main style={{ ...styles.page, padding: "20px 20px 80px" }}>
         {view === "shelf" ? (
-          <ShelfView
-            books={books}
-            filter={filter}
-            onFilterChange={setFilter}
-            onSelectBook={setEditingBook}
-          />
+          <ShelfView shelf={shelf} onSelectBook={setEditingBook} />
         ) : (
           <StatsView stats={stats} />
         )}

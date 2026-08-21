@@ -1,34 +1,36 @@
-import { useMemo } from "react";
 import { BookCard } from "./BookCard";
-import { StatusFilter } from "./StatusFilter";
+import { ShelfFilters } from "./ShelfFilters";
 import { EmptyState } from "../ui/EmptyState";
-import { ALL_FILTER } from "../../constants/books";
+import { useTheme } from "../../hooks/useTheme";
 
-export function ShelfView({ books, filter, onFilterChange, onSelectBook }) {
-  const filtered = useMemo(
-    () => (filter === ALL_FILTER ? books : books.filter((b) => b.estatus === filter)),
-    [books, filter],
-  );
+export function ShelfView({ shelf, onSelectBook }) {
+  const { styles } = useTheme();
+  const { query, update, genres, visible, total } = shelf;
 
-  const isEmptyShelf = books.length === 0;
+  const isEmptyShelf = total === 0;
 
   return (
     <>
-      <StatusFilter value={filter} onChange={onFilterChange} />
+      <section
+        style={{ ...styles.card, padding: "14px 16px", marginBottom: 18, display: "grid", gap: 12 }}
+        aria-label="Filtros"
+      >
+        <ShelfFilters genres={genres} query={query} onChange={update} />
+      </section>
 
-      {filtered.length === 0 ? (
+      {visible.length === 0 ? (
         <EmptyState
           icon="▮▮▮"
-          title={isEmptyShelf ? "Tu librero está vacío" : "Nada con este filtro"}
+          title={isEmptyShelf ? "Tu librero está vacío" : "Nada con estos filtros"}
           description={
             isEmptyShelf
               ? "Agrega tu primer libro para empezar el registro."
-              : "Prueba otro estatus o agrega un libro nuevo."
+              : "Prueba con otros filtros o agrega un libro nuevo."
           }
         />
       ) : (
         <div style={{ display: "grid", gap: 12 }}>
-          {filtered.map((book) => (
+          {visible.map((book) => (
             <BookCard key={book.id} book={book} onSelect={onSelectBook} />
           ))}
         </div>

@@ -1,0 +1,70 @@
+import { useTheme } from "../../hooks/useTheme";
+import { ALL_FILTER, STATUSES } from "../../constants/books";
+import { RATING_OPTIONS } from "../../constants/shelf";
+
+const ratingLabel = (stars) => (stars === 5 ? "5 estrellas" : `${stars} o más estrellas`);
+
+/** Status, genre and rating selects. The genres come from the shelf itself. */
+export function ShelfFilters({ genres, query, onChange }) {
+  const { styles } = useTheme();
+
+  const set = (field) => (event) => onChange({ [field]: event.target.value });
+  const select = { ...styles.input, fontSize: 14, padding: "9px 10px" };
+
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+        gap: 10,
+      }}
+    >
+      <div>
+        <label style={styles.label} htmlFor="filtro-estatus">
+          Estatus
+        </label>
+        <select id="filtro-estatus" style={select} value={query.estatus} onChange={set("estatus")}>
+          <option value={ALL_FILTER}>Todos</option>
+          {STATUSES.map((status) => (
+            <option key={status} value={status}>
+              {status}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label style={styles.label} htmlFor="filtro-genero">
+          Género
+        </label>
+        <select id="filtro-genero" style={select} value={query.genero} onChange={set("genero")}>
+          <option value={ALL_FILTER}>Todos</option>
+          {genres.map((genre) => (
+            <option key={genre} value={genre}>
+              {genre}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label style={styles.label} htmlFor="filtro-calificacion">
+          Calificación
+        </label>
+        <select
+          id="filtro-calificacion"
+          style={select}
+          value={query.calificacion}
+          onChange={set("calificacion")}
+        >
+          <option value={ALL_FILTER}>Cualquiera</option>
+          {RATING_OPTIONS.map((stars) => (
+            <option key={stars} value={stars}>
+              {ratingLabel(stars)}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+  );
+}

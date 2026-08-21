@@ -28,7 +28,7 @@ src/
 ├── components/
 │   ├── ui/          Reusable primitives (Badge, Stars, Modal, BarChart…)
 │   ├── layout/      Header, tabs and the CSV buttons
-│   ├── shelf/       Book list, cards and status filter
+│   ├── shelf/       Book list, cards and the filter panel
 │   ├── stats/       Reading statistics tab
 │   ├── book-form/   Create/edit dialog and the Open Library search
 │   └── csv/         Import dialog: column reference and file preview
