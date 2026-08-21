@@ -19,25 +19,18 @@ export function BookCard({ book, onSelect }) {
       <div style={{ width: 7, background: spine, flexShrink: 0 }} aria-hidden="true" />
 
       <div style={{ padding: "16px 18px", flex: 1, minWidth: 0 }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 10,
-            flexWrap: "wrap",
-            alignItems: "baseline",
-          }}
-        >
-          <h2 className="serif" style={{ margin: 0, fontSize: 19, fontWeight: 600, lineHeight: 1.3 }}>
-            {book.titulo}
-            {book.anio && (
-              <span style={{ color: t.muted, fontWeight: 400, fontSize: 14 }}> · {book.anio}</span>
-            )}
-          </h2>
+        <h2 className="serif" style={{ margin: 0, fontSize: 19, fontWeight: 600, lineHeight: 1.3 }}>
+          {book.titulo}
+          {book.anio && (
+            <span style={{ color: t.muted, fontWeight: 400, fontSize: 14 }}> · {book.anio}</span>
+          )}
+        </h2>
+
+        <div style={{ margin: "7px 0 0" }}>
           <Badge text={book.estatus} color={statusColor} />
         </div>
 
-        <p style={{ margin: "4px 0 10px", color: t.muted, fontSize: 14 }}>
+        <p style={{ margin: "8px 0 10px", color: t.muted, fontSize: 14 }}>
           {book.autor || "Autor desconocido"}
           {book.genero && (
             <>
