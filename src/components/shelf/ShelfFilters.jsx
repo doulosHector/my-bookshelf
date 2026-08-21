@@ -1,8 +1,9 @@
 import { useTheme } from "../../hooks/useTheme";
+import { pluralize } from "../../utils/book";
 import { ALL_FILTER, STATUSES } from "../../constants/books";
 import { RATING_OPTIONS } from "../../constants/shelf";
 
-const ratingLabel = (stars) => (stars === 5 ? "5 estrellas" : `${stars} o más estrellas`);
+const ratingLabel = (stars) => `${stars} ${pluralize(stars, "estrella", "estrellas")}`;
 
 /** Status, genre and rating selects. The genres come from the shelf itself. */
 export function ShelfFilters({ genres, query, onChange }) {

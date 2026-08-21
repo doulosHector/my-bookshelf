@@ -16,18 +16,23 @@ export function shelfGenres(books) {
 }
 
 /**
- * Keeps the books matching every active filter.
+ * Keeps the books matching every active filter. The rating has to match
+ * exactly: "3 estrellas" leaves out the books rated 4 and 5.
  * @param {object[]} books
  * @param {object} query see EMPTY_QUERY
  */
 export function filterBooks(books, query) {
-  const minRating = query.calificacion === ALL_FILTER ? 0 : Number(query.calificacion);
   const needle = fold(query.search.trim());
 
   return books.filter((book) => {
     if (query.estatus !== ALL_FILTER && book.estatus !== query.estatus) return false;
     if (query.genero !== ALL_FILTER && book.genero !== query.genero) return false;
-    if ((book.calificacion || 0) < minRating) return false;
+    if (
+      query.calificacion !== ALL_FILTER &&
+      (book.calificacion || 0) !== Number(query.calificacion)
+    ) {
+      return false;
+    }
     if (!needle) return true;
     return fold(book.titulo).includes(needle) || fold(book.autor).includes(needle);
   });
