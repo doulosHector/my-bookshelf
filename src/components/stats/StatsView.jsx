@@ -58,7 +58,7 @@ export function StatsView({ stats }) {
 
   return (
     <div style={{ display: "grid", gap: 14 }}>
-      <div style={gridStyle(150)}>
+      <div className="stat-grid">
         <StatCard label="Leídos este año" value={stats.esteAnio} />
         <StatCard
           label="Total leídos"
