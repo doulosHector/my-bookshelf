@@ -17,16 +17,27 @@ export function useShelfQuery(books) {
     [],
   );
 
+  // Clearing keeps the order the reader picked; only the filters go back.
+  const reset = useCallback(
+    () => setQuery((current) => ({ ...EMPTY_QUERY, sort: current.sort })),
+    [],
+  );
+
   const genres = useMemo(() => shelfGenres(books), [books]);
   const visible = useMemo(() => sortBooks(filterBooks(books, query), query.sort), [books, query]);
+
+  const activeFilters = countActiveFilters(query);
+  const isFiltered = activeFilters > 0 || query.search.trim() !== "";
 
   return {
     query,
     update,
     toggleSort,
+    reset,
     genres,
     visible,
-    activeFilters: countActiveFilters(query),
+    activeFilters,
+    isFiltered,
     total: books.length,
   };
 }

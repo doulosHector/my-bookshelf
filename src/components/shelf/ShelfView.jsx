@@ -1,11 +1,13 @@
 import { BookCard } from "./BookCard";
+import { ShelfClear } from "./ShelfClear";
 import { ShelfFilters } from "./ShelfFilters";
 import { ShelfSearch } from "./ShelfSearch";
 import { ShelfSort } from "./ShelfSort";
 import { EmptyState } from "../ui/EmptyState";
 
 export function ShelfView({ shelf, onSelectBook }) {
-  const { query, update, toggleSort, genres, visible, activeFilters, total } = shelf;
+  const { query, update, toggleSort, reset, genres, visible, activeFilters, isFiltered, total } =
+    shelf;
 
   const isEmptyShelf = total === 0;
 
@@ -21,7 +23,8 @@ export function ShelfView({ shelf, onSelectBook }) {
 
         <ShelfSearch value={query.search} onChange={(search) => update({ search })} />
 
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <div style={{ display: "flex", gap: 8, justifyContent: "flex-end", flexWrap: "wrap" }}>
+          <ShelfClear disabled={!isFiltered} onClear={reset} />
           <ShelfSort sort={query.sort} onToggle={toggleSort} />
         </div>
       </div>
