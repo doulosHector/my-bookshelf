@@ -15,6 +15,13 @@ export function shelfGenres(books) {
   return [...genres].sort((a, b) => a.localeCompare(b, "es"));
 }
 
+/** How many of the selects are narrowing the shelf; shown on the toggle. */
+export function countActiveFilters(query) {
+  return [query.estatus, query.genero, query.calificacion].filter(
+    (value) => value !== ALL_FILTER,
+  ).length;
+}
+
 /**
  * Keeps the books matching every active filter. The rating has to match
  * exactly: "3 estrellas" leaves out the books rated 4 and 5.

@@ -5,14 +5,19 @@ import { ShelfSort } from "./ShelfSort";
 import { EmptyState } from "../ui/EmptyState";
 
 export function ShelfView({ shelf, onSelectBook }) {
-  const { query, update, toggleSort, genres, visible, total } = shelf;
+  const { query, update, toggleSort, genres, visible, activeFilters, total } = shelf;
 
   const isEmptyShelf = total === 0;
 
   return (
     <>
       <div style={{ display: "grid", gap: 10, marginBottom: 18 }}>
-        <ShelfFilters genres={genres} query={query} onChange={update} />
+        <ShelfFilters
+          genres={genres}
+          query={query}
+          activeFilters={activeFilters}
+          onChange={update}
+        />
 
         <ShelfSearch value={query.search} onChange={(search) => update({ search })} />
 

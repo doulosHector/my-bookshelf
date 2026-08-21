@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { EMPTY_QUERY, SORT_MODES } from "../constants/shelf";
-import { filterBooks, shelfGenres, sortBooks } from "../utils/shelf";
+import { countActiveFilters, filterBooks, shelfGenres, sortBooks } from "../utils/shelf";
 
 /** Owns the filters, the search and the order, and derives the books on screen. */
 export function useShelfQuery(books) {
@@ -20,5 +20,13 @@ export function useShelfQuery(books) {
   const genres = useMemo(() => shelfGenres(books), [books]);
   const visible = useMemo(() => sortBooks(filterBooks(books, query), query.sort), [books, query]);
 
-  return { query, update, toggleSort, genres, visible, total: books.length };
+  return {
+    query,
+    update,
+    toggleSort,
+    genres,
+    visible,
+    activeFilters: countActiveFilters(query),
+    total: books.length,
+  };
 }
