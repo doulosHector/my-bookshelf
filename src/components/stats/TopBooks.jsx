@@ -1,10 +1,13 @@
 import { useTheme } from "../../hooks/useTheme";
 import { Stars } from "../ui/Stars";
-import { formatDate } from "../../utils/book";
+import { pluralize } from "../../utils/book";
+
+/** A book read once may not carry the count yet, so an empty value means one. */
+const readings = (book) => Number(book.vecesLeido) || 1;
 
 /**
- * The best rated books, ties broken by the latest reading. Replaces the single
- * "best rated" card, which picked an arbitrary winner once several books tied.
+ * The best rated books, ties broken by how many times you read them. Replaces
+ * the single "best rated" card, which picked an arbitrary winner among ties.
  */
 export function TopBooks({ books }) {
   const { t, styles } = useTheme();
@@ -15,7 +18,7 @@ export function TopBooks({ books }) {
         Top {books.length}
       </h3>
       <p style={{ margin: "0 0 14px", fontSize: 12, color: t.muted }}>
-        Por calificación; a igual calificación, la lectura más reciente primero.
+        Por calificación; a igual calificación, el más releído primero.
       </p>
 
       <ol style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 10 }}>
@@ -50,8 +53,8 @@ export function TopBooks({ books }) {
                 {book.titulo}
               </div>
               <div style={{ fontSize: 12, color: t.muted }}>
-                {book.autor || "Autor desconocido"}
-                {book.fechaFin && ` · ${formatDate(book.fechaFin)}`}
+                {book.autor || "Autor desconocido"} · {readings(book)}{" "}
+                {pluralize(readings(book), "lectura", "lecturas")}
               </div>
             </div>
 

@@ -44,6 +44,9 @@ const highest = (books, getValue) =>
 
 const sum = (books, getValue) => books.reduce((acc, book) => acc + getValue(book), 0);
 
+/** A book read once may not carry the count yet, so an empty value means one. */
+const readings = (book) => Number(book.vecesLeido) || 1;
+
 /**
  * Reading pace over the trailing twelve months. Anchoring it to the calendar
  * year made January meaningless: one book on the 5th read as six a month. The
@@ -84,11 +87,9 @@ function byWaitingLongest(a, b) {
   return dateA - dateB;
 }
 
-/** Best rated first; books tied on stars are ordered by the latest reading. */
-function byRatingThenReading(a, b) {
-  return (
-    b.calificacion - a.calificacion || (b.fechaFin || "").localeCompare(a.fechaFin || "")
-  );
+/** Best rated first; books tied on stars are ordered by how often you read them. */
+function byRatingThenReadings(a, b) {
+  return b.calificacion - a.calificacion || readings(b) - readings(a);
 }
 
 /**
@@ -152,7 +153,7 @@ export function computeStats(books, now = new Date()) {
       books.filter((b) => b.vecesLeido > 1),
       (b) => b.vecesLeido,
     ),
-    top: [...calificados].sort(byRatingThenReading).slice(0, TOP_BOOKS),
+    top: [...calificados].sort(byRatingThenReadings).slice(0, TOP_BOOKS),
     pendientesAntiguos: [...pendientes].sort(byWaitingLongest).slice(0, OLDEST_PENDING),
     mesesPendientes,
   };
