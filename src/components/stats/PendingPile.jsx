@@ -34,13 +34,15 @@ export function PendingPile({ count, months, oldest }) {
         {oldest.map((book) => (
           <div
             key={book.id ?? book.titulo}
-            style={{ display: "flex", gap: 10, justifyContent: "space-between", fontSize: 13 }}
+            style={{
+              display: "flex",
+              gap: 10,
+              justifyContent: "space-between",
+              alignItems: "baseline",
+              fontSize: 13,
+            }}
           >
-            <span
-              style={{ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
-            >
-              {book.titulo}
-            </span>
+            <span style={{ minWidth: 0, overflowWrap: "break-word" }}>{book.titulo}</span>
             <span style={{ color: t.muted, flexShrink: 0 }}>
               {addedOn(book) ? `desde ${addedOn(book)}` : "sin fecha de registro"}
             </span>

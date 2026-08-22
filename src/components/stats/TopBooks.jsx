@@ -36,7 +36,7 @@ export function TopBooks({ books }) {
             key={book.id ?? book.titulo}
             style={{
               display: "flex",
-              alignItems: "center",
+              alignItems: "flex-start",
               gap: 12,
               paddingTop: index === 0 ? 0 : 10,
               borderTop: index === 0 ? "none" : `1px solid ${t.border}`,
@@ -50,26 +50,10 @@ export function TopBooks({ books }) {
             </span>
 
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div
-                className="serif"
-                style={{
-                  fontSize: 16,
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
-              >
+              <div className="serif" style={{ fontSize: 16, overflowWrap: "break-word" }}>
                 {book.titulo}
               </div>
-              <div
-                style={{
-                  fontSize: 12,
-                  color: t.muted,
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
-              >
+              <div style={{ fontSize: 12, color: t.muted, overflowWrap: "break-word" }}>
                 {book.autor || "Autor desconocido"} · {readings(book)}{" "}
                 {pluralize(readings(book), "lectura", "lecturas")}
               </div>
