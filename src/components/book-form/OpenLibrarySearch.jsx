@@ -1,7 +1,9 @@
 import { useTheme } from "../../hooks/useTheme";
 import { useOpenLibrarySearch } from "../../hooks/useOpenLibrarySearch";
-import { docToBookFields } from "../../services/openLibrary";
+import { resultToBookFields } from "../../services/openLibrary";
 import { SEARCH_ERRORS } from "../../constants/openLibrary";
+import { Badge } from "../ui/Badge";
+import { BookCover } from "../ui/BookCover";
 
 const ERROR_MESSAGES = {
   [SEARCH_ERRORS.blocked]:
@@ -10,13 +12,16 @@ const ERROR_MESSAGES = {
     "Sin resultados. Intenta con otro término o llena los campos a mano.",
 };
 
+// Portrait, the usual proportion of a book cover.
+const COVER = { width: 34, height: 51 };
+
 /** Optional Open Library lookup that prefills the new-book form. */
 export function OpenLibrarySearch({ onPick }) {
   const { t, styles } = useTheme();
   const { query, setQuery, results, searching, error, search, reset } = useOpenLibrarySearch();
 
-  const pick = (doc) => {
-    const fields = docToBookFields(doc);
+  const pick = (result) => {
+    const fields = resultToBookFields(result);
     // Keep whatever the user already typed when the result has no value for it.
     onPick(Object.fromEntries(Object.entries(fields).filter(([, value]) => value !== "")));
     reset();
@@ -44,7 +49,7 @@ export function OpenLibrarySearch({ onPick }) {
         />
         <button
           type="button"
-          onClick={search}
+          onClick={() => search()}
           disabled={searching}
           style={{ ...styles.btnGhost, whiteSpace: "nowrap" }}
         >
@@ -57,19 +62,48 @@ export function OpenLibrarySearch({ onPick }) {
       )}
 
       {results.length > 0 && (
-        <div style={{ marginTop: 10, display: "grid", gap: 6 }}>
-          {results.map((doc, index) => (
+        <div style={{ marginTop: 10, display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 6 }}>
+          {results.map((result) => (
             <button
-              key={`${doc.title}-${index}`}
+              key={result.key}
               type="button"
-              onClick={() => pick(doc)}
-              style={{ ...styles.btnGhost, textAlign: "left", background: t.surface, color: t.ink }}
+              onClick={() => pick(result)}
+              style={{
+                ...styles.btnGhost,
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 10,
+                textAlign: "left",
+                background: t.surface,
+                color: t.ink,
+              }}
             >
-              <strong>{doc.title}</strong>
-              <span style={{ color: t.muted }}>
-                {" — "}
-                {(doc.author_name && doc.author_name[0]) || "¿?"}
-                {doc.first_publish_year ? `, ${doc.first_publish_year}` : ""}
+              <BookCover
+                {...COVER}
+                coverId={result.portada}
+                title={result.titulo}
+                genre={result.genero}
+              />
+
+              <span style={{ minWidth: 0 }}>
+                <strong style={{ overflowWrap: "break-word" }}>{result.titulo}</strong>
+                <span
+                  style={{
+                    display: "block",
+                    marginTop: 2,
+                    color: t.muted,
+                    overflowWrap: "break-word",
+                  }}
+                >
+                  {result.autor || "¿?"}
+                  {result.anio ? `, ${result.anio}` : ""}
+                  {result.spanish && (
+                    <>
+                      {" "}
+                      <Badge text="español" color={t.muted} />
+                    </>
+                  )}
+                </span>
               </span>
             </button>
           ))}
