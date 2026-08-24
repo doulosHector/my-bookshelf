@@ -36,6 +36,7 @@ export const EMPTY_BOOK = {
   calificacion: 0,
   resena: "",
   anio: "",
+  // Open Library cover id; "" means the card falls back to the plain layout.
+  portada: "",
 };
 
-export const MAX_REVIEW_PREVIEW = 180;

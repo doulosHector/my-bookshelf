@@ -63,6 +63,16 @@ export default defineConfig({
               cacheableResponse: { statuses: [0, 200] },
             },
           },
+          {
+            // A cover id always points to the same image, so it never goes stale.
+            urlPattern: /^https:\/\/covers\.openlibrary\.org\/.*/i,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "open-library-covers",
+              expiration: { maxEntries: 200, maxAgeSeconds: 60 * 60 * 24 * 180 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
         ],
       },
       devOptions: { enabled: false },

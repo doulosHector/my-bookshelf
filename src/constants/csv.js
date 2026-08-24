@@ -62,6 +62,13 @@ export const CSV_COLUMNS = [
     example: "Un clásico que releo cada pocos años.",
   },
   {
+    key: "portada",
+    aliases: ["cover", "cover_i", "portada_id", "imagen"],
+    description:
+      "Id numérico de la portada en Open Library. Se llena al buscar el libro en línea.",
+    example: "15234772",
+  },
+  {
     key: "id",
     aliases: ["identificador"],
     description:

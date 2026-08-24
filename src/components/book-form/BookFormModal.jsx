@@ -3,6 +3,7 @@ import { Modal } from "../ui/Modal";
 import { BookFormFields } from "./BookFormFields";
 import { BookFormActions } from "./BookFormActions";
 import { OpenLibrarySearch } from "./OpenLibrarySearch";
+import { CoverField } from "./CoverField";
 import { EMPTY_BOOK } from "../../constants/books";
 
 /**
@@ -29,7 +30,10 @@ export function BookFormModal({ book, onSave, onDelete, onClose }) {
       {!isEditing && <OpenLibrarySearch onPick={updateForm} />}
 
       <form onSubmit={(event) => event.preventDefault()}>
-        <BookFormFields form={form} onChange={updateForm} />
+        <div style={{ display: "grid", gap: 14 }}>
+          <CoverField form={form} onChange={updateForm} />
+          <BookFormFields form={form} onChange={updateForm} />
+        </div>
         <BookFormActions
           isEditing={isEditing}
           canSave={canSave}

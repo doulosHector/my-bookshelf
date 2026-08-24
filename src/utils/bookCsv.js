@@ -81,6 +81,11 @@ function rowToBook(cells) {
     problems.push(`calificación "${value("calificacion")}" no es un número entero de 0 a ${MAX_RATING}`);
   }
 
+  const portada = value("portada").trim();
+  if (portada && !/^\d+$/.test(portada)) {
+    problems.push(`portada "${portada}" no es un id numérico de Open Library`);
+  }
+
   if (problems.length > 0) return { book: null, problems };
 
   return {
@@ -95,6 +100,7 @@ function rowToBook(cells) {
       vecesLeido,
       calificacion,
       resena: value("resena"),
+      portada,
       agregado: value("agregado").trim() || new Date().toISOString(),
     }),
     problems,
