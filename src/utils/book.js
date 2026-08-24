@@ -35,10 +35,6 @@ export function formatDate(iso) {
   return parts ? `${parts[3]}-${parts[2]}-${parts[1]}` : (iso ?? "");
 }
 
-export function truncate(text, maxLength) {
-  return text.length > maxLength ? `${text.slice(0, maxLength)}…` : text;
-}
-
 export function pluralize(count, singular, plural) {
   return count === 1 ? singular : plural;
 }

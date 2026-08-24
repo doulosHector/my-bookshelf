@@ -9,7 +9,7 @@ export function Badge({ text, color }) {
         color,
         border: `1px solid ${color}55`,
         borderRadius: 3,
-        padding: "3px 9px",
+        padding: "2px 6px",
       }}
     >
       {text}
