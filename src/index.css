@@ -141,6 +141,16 @@ textarea:focus-visible {
   }
 }
 
+/* A row that scrolls sideways without a bar sitting over its content. */
+.scroll-row {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.scroll-row::-webkit-scrollbar {
+  display: none;
+}
+
 .book-card {
   transition: transform 0.15s ease;
 }
