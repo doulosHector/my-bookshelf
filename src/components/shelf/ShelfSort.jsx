@@ -20,8 +20,6 @@ export function ShelfSort({ sort, onToggle }) {
       style={{
         ...styles.btnGhost,
         color: t.ink,
-        fontSize: 13,
-        padding: "8px 13px",
         display: "inline-flex",
         gap: 7,
         alignItems: "center",

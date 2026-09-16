@@ -28,7 +28,7 @@ export function Tabs({ tabs, active, onChange }) {
               border: "none",
               fontFamily: "inherit",
               cursor: "pointer",
-              fontSize: 15,
+              fontSize: 14,
               fontWeight: isActive ? 600 : 400,
               color: isActive ? t.ink : t.muted,
               padding: "10px 14px",

@@ -67,7 +67,7 @@ export default function App() {
       />
       <Tabs tabs={TABS} active={view} onChange={setView} />
 
-      <main style={{ ...styles.page, padding: "20px 20px 80px" }}>
+      <main style={{ ...styles.page, padding: "15px 20px 80px" }}>
         {view === "shelf" ? (
           <ShelfView shelf={shelf} onSelectBook={setEditingBook} />
         ) : (
