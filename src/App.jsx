@@ -59,7 +59,6 @@ export default function App() {
       }}
     >
       <Header
-        stats={stats}
         onAddBook={() => setEditingBook(EMPTY_BOOK)}
         canExport={books.length > 0}
         onExport={handleExport}

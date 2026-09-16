@@ -1,6 +1,12 @@
 import { useCallback, useMemo, useState } from "react";
 import { EMPTY_QUERY, SORT_MODES } from "../constants/shelf";
-import { countActiveFilters, filterBooks, shelfGenres, sortBooks } from "../utils/shelf";
+import {
+  countActiveFilters,
+  countByStatus,
+  filterBooks,
+  shelfGenres,
+  sortBooks,
+} from "../utils/shelf";
 
 /** Owns the filters, the search and the order, and derives the books on screen. */
 export function useShelfQuery(books) {
@@ -24,6 +30,9 @@ export function useShelfQuery(books) {
   );
 
   const genres = useMemo(() => shelfGenres(books), [books]);
+  // Counted on the shelf itself, not on what the other filters leave: the
+  // number tells the reader what is there, whatever else is narrowed down.
+  const counts = useMemo(() => countByStatus(books), [books]);
   const visible = useMemo(() => sortBooks(filterBooks(books, query), query.sort), [books, query]);
 
   const activeFilters = countActiveFilters(query);
@@ -35,6 +44,7 @@ export function useShelfQuery(books) {
     toggleSort,
     reset,
     genres,
+    counts,
     visible,
     activeFilters,
     isFiltered,

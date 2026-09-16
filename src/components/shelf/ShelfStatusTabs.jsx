@@ -7,8 +7,11 @@ const OPTIONS = [ALL_FILTER, ...STATUSES];
  * The status filter as a second row of tabs, smaller than the main ones so it
  * reads as subordinate to them. Five options do not fit on a phone, so the row
  * scrolls sideways instead of wrapping into two lines.
+ *
+ * Each tab carries how many books it holds, which is where the shelf's numbers
+ * live now that the header no longer lists them.
  */
-export function ShelfStatusTabs({ value, onChange }) {
+export function ShelfStatusTabs({ value, counts, onChange }) {
   const { t } = useTheme();
 
   return (
@@ -44,6 +47,13 @@ export function ShelfStatusTabs({ value, onChange }) {
             }}
           >
             {status}
+            <span
+              // Dimmer than the label at every state, so the tab still reads as
+              // a word first and a number second.
+              style={{ marginLeft: 5, fontSize: 11, fontWeight: 400, color: t.muted }}
+            >
+              {counts[status] ?? 0}
+            </span>
           </button>
         );
       })}

@@ -1,4 +1,4 @@
-import { ALL_FILTER } from "../constants/books";
+import { ALL_FILTER, STATUSES } from "../constants/books";
 import { SORT_MODES } from "../constants/shelf";
 
 /** Lowercase and without diacritics, so "Bronte" also matches "Brontë". */
@@ -13,6 +13,21 @@ function fold(text) {
 export function shelfGenres(books) {
   const genres = new Set(books.map((book) => book.genero).filter(Boolean));
   return [...genres].sort((a, b) => a.localeCompare(b, "es"));
+}
+
+/**
+ * How many books sit under each status, plus the whole shelf under ALL_FILTER.
+ * Every status is a key even at zero, so the tabs never read `undefined`.
+ */
+export function countByStatus(books) {
+  const counts = Object.fromEntries(STATUSES.map((status) => [status, 0]));
+  counts[ALL_FILTER] = books.length;
+
+  for (const book of books) {
+    if (book.estatus in counts) counts[book.estatus] += 1;
+  }
+
+  return counts;
 }
 
 /** How many of the selects are narrowing the shelf; shown on the toggle. */

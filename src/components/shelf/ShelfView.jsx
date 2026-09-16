@@ -7,14 +7,18 @@ import { ShelfStatusTabs } from "./ShelfStatusTabs";
 import { EmptyState } from "../ui/EmptyState";
 
 export function ShelfView({ shelf, onSelectBook }) {
-  const { query, update, toggleSort, reset, genres, visible, isFiltered, total } = shelf;
+  const { query, update, toggleSort, reset, genres, counts, visible, isFiltered, total } = shelf;
 
   const isEmptyShelf = total === 0;
 
   return (
     <>
       <div style={{ display: "grid", gap: 10, marginBottom: 18 }}>
-        <ShelfStatusTabs value={query.estatus} onChange={(estatus) => update({ estatus })} />
+        <ShelfStatusTabs
+          value={query.estatus}
+          counts={counts}
+          onChange={(estatus) => update({ estatus })}
+        />
 
         <ShelfFilters genres={genres} query={query} onChange={update} />
 

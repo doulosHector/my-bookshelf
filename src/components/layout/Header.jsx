@@ -2,18 +2,8 @@ import { useTheme } from "../../hooks/useTheme";
 import { ThemeIcon } from "../ui/ThemeIcon";
 import { DataActions } from "./DataActions";
 
-export function Header({ stats, onAddBook, canExport, onExport, onImport }) {
+export function Header({ onAddBook, canExport, onExport, onImport }) {
   const { theme, t, styles, toggleTheme } = useTheme();
-
-  // Every status is listed, so the counts add up to the shelf.
-  const counts = [
-    `${stats.totalLeidos} leídos`,
-    `${stats.leyendo} en curso`,
-    `${stats.pendientes} pendientes`,
-    stats.abandonados > 0 ? `${stats.abandonados} abandonados` : "",
-  ].filter(Boolean);
-
-  const summary = stats.total === 0 ? "Tu registro personal de lectura" : counts.join(" · ");
 
   return (
     <header
@@ -34,7 +24,9 @@ export function Header({ stats, onAddBook, canExport, onExport, onImport }) {
         >
           Mi Librero
         </h1>
-        <p style={{ margin: "4px 0 0", color: t.muted, fontSize: 14 }}>{summary}</p>
+        <p style={{ margin: "4px 0 0", color: t.muted, fontSize: 14 }}>
+          Tu registro personal de lectura
+        </p>
       </div>
 
       {/* On a phone this takes the whole line under the title, which is why the
