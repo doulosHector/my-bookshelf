@@ -10,7 +10,7 @@ export function Tabs({ tabs, active, onChange }) {
     <nav
       style={{
         ...styles.page,
-        padding: "16px 20px 0",
+        padding: "10px 20px 0",
         display: "flex",
         gap: 4,
         borderBottom: `1px solid ${t.border}`,
