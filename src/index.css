@@ -141,6 +141,19 @@ textarea:focus-visible {
   }
 }
 
+/* Header actions: beside the title on a wide screen, and on a phone the whole
+   line under it, with the primary action left and the icon buttons right. */
+.header-actions {
+  margin-left: auto;
+}
+
+@media (max-width: 620px) {
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
 /* A row that scrolls sideways without a bar sitting over its content. */
 .scroll-row {
   overflow-x: auto;

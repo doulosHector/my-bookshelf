@@ -37,18 +37,30 @@ export function Header({ stats, onAddBook, canExport, onExport, onImport }) {
         <p style={{ margin: "4px 0 0", color: t.muted, fontSize: 14 }}>{summary}</p>
       </div>
 
-      <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-        <DataActions canExport={canExport} onExport={onExport} onImport={onImport} />
-        <button
-          onClick={toggleTheme}
-          aria-label={theme === "light" ? "Cambiar a tema oscuro" : "Cambiar a tema claro"}
-          style={{ ...styles.btnGhost, padding: 11, color: t.ink, display: "grid", placeItems: "center" }}
-        >
-          <ThemeIcon dark={theme === "dark"} />
-        </button>
+      {/* On a phone this takes the whole line under the title, which is why the
+          two icon buttons are grouped: they stay together at the right edge
+          while the primary action holds the left one. */}
+      <div className="header-actions" style={{ display: "flex", gap: 8, alignItems: "center" }}>
         <button onClick={onAddBook} style={styles.btnPrimary}>
           + Agregar libro
         </button>
+
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          <DataActions canExport={canExport} onExport={onExport} onImport={onImport} />
+          <button
+            onClick={toggleTheme}
+            aria-label={theme === "light" ? "Cambiar a tema oscuro" : "Cambiar a tema claro"}
+            style={{
+              ...styles.btnGhost,
+              padding: 8,
+              color: t.ink,
+              display: "grid",
+              placeItems: "center",
+            }}
+          >
+            <ThemeIcon dark={theme === "dark"} />
+          </button>
+        </div>
       </div>
     </header>
   );
